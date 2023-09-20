@@ -1,0 +1,88 @@
+
+//activity
+void sort(Activity** a, int n){
+
+    for(int i=1; i<n; i++){
+        int index=i;
+            while((index>0 && a[index]->end() < a[index-1]->end())
+            ||(index>0 && a[index]->end() < a[index-1]->end()) &&
+            a[index]->start() < a[index-1]->start()){
+                swap(a[index], a[index-1]);
+                index--;
+            }
+    }
+}
+
+void select(Activity** v, int n){
+        int* t=new int[n];
+        for(int i=0; i<n; i++) t[i]=v[i]->profit();
+
+        for(int i=1; i<n; i++){
+            for(int j=i; j>=0; j--){
+                if(v[i]->end() <= v[i]-start()){
+                    t[i]=max(t[i], t[j]+v[i]->profit());
+                }
+            }
+        }
+
+        int max=t[0];
+        for(int i=0; i<n; i++)
+            if(t[i]>max) max=t[i];
+
+        return max;
+}
+
+//activiti greedy
+void sort(Activity** a, int n){
+
+    for(int i=1; i<n; i++){
+        int index=i;
+            while((index>0 && 
+            a[index]->end() < a[index-1]->end())){
+                swap(a[index], a[index-1]);
+                index--;
+            }
+    }
+}
+
+static int selector(Activity** v, int n){
+    int max=1;
+    int last=0;
+
+    for(int i=1; i<n; i++){
+        if(v[i]->start() <= v[last]->end()){
+            max++;
+            last=i;
+        }
+    }
+    return max;
+}
+
+//knapsack
+namespace sort{
+    void swap(int* v, int a, int b){
+        int tmp=v[a];
+        v[a]=v[b];
+        v[b]=tmp;
+    }
+
+    void selection(int *v, int n){
+        for(int i=1; i<n; i++){
+            int index=i;
+
+            while(index>=1 && v[index] > v[index-1]){
+                swap(v, index, index-1);
+                index--;
+            }
+        }
+    }
+}
+
+void knapsack(ofstream out, int* v, int n, int p){
+    sort::selection(v, n);
+    int max=0;
+
+    for(int i=0; i<p; i++) max+=v[i];
+
+    out << max << endl; 
+}
